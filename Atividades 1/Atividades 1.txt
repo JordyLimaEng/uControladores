@@ -1,0 +1,39 @@
+1. Tipo de triângulo (data de entrega: 17/07/18)
+Objetivo: Exercício com algoritmo. Propor um algoritmo que identifique o tipo de triângulo a partir dos
+valores dos lados.
+Especificações:
+Dado três valores correspondentes aos lados de um triângulo, indicados nas variáveis X1, Y1 e Z1,
+proponha um ALGORITMO, escrito em Portugol (pseudocódigo escrito em português), para determinar,
+com base nos valores, qual é o tipo de triângulo: escaleno, isósceles ou equilátero.
+A resposta deve ser dada na variável W, de acordo com a seguinte notação:
+• W=1 é escaleno;
+• W=2 é isósceles;
+• W=3 é equilátero;
+• W=4 é não é um triângulo;
+
+2. Semáforo de trânsito (data de entrega: 26/07/18)
+Objetivo: Exercício de aplicação da linguagem Assembly.
+Contexto: Proponha um aplicativo em Assembly (PIC12F675) para controlar o semáforo de um cruzamento
+simples de rua: fecha para um lado e abre para o outro, utilizando 1 dígito BCD e 1 porta: LED.
+Especificações:
+• Utilize dois LEDs (verde e vermelho) aplicados a uma única porta para funcionar em oposição, segundo
+a notação:
+• quando a porta é HIGH - LED1 é ON e LED2 é OFF;
+• quando a porta é LOW - LED1 é OFF e LED2 é ON;
+• Para transição de estado (verde para vermelho ou vermelho para verde), ocorrerá após uma contagem
+decrescente, de 9 até 0;
+• A contagem deve ser indicada em um display de 7 segmentos, no kit de bancada;
+• Por se tratar de um semáforo didático, cada transição da contagem (indicada no display) deve ocorrer a
+cada 300 ms.
+
+
+3. Aplicação de controle remoto (infra-vermelho) (data de entrega: 07/08/18)
+Objetivo: Implementar um receptor infra-vermelho (IR) que indique a tecla pressionada.
+Especificações:
+• O teclado do controle remoto SONY deve ser utilizado para emitir o sinal IR;
+• O protocolo utilizado pela Sony deve ser respeitado (ver documentação específica);
+• A visualização da tecla pressionada (de 0 a 9) deve ser indicada em um display de 7 segmentos, no kit
+de bancada;
+• Qualquer outra tecla pressionada deve piscar, com período de 100 ms, o LED em GP5
+
+
