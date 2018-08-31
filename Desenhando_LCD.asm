@@ -36,7 +36,7 @@
 ;*                         VARIÃVEIS                               *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ; DEFINIÃ?Ã?O DOS NOMES E ENDEREÃ?OS DE TODAS AS VARIÃVEIS UTILIZADAS 
-; PELO SISTEMA
+; PELO SISTEMA 
 
 	CBLOCK	0x20	;ENDEREÃ?O INICIAL DA MEMÃ?RIA DE
 					;USUÃRIO
