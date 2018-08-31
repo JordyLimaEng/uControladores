@@ -8,7 +8,7 @@
 ;*                       NOME DO PROJETO                           *
 ;*                           CLIENTE                               *
 ;*         DESENVOLVIDO PELA MOSAICO ENGENHARIA E CONSULTORIA      *
-;*   VERSÃ?O: 1.0                           DATA: 17/06/03          *
+;*   VERSÃ?O: 1.0                            DATA: 17/06/03          *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                     DESCRIÃ?Ã?O DO ARQUIVO                        *
 ;*-----------------------------------------------------------------*
