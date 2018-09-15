@@ -35,3 +35,42 @@ um dispositivo "lento", tempos de espera especificados devem ser respeitados;
 · O LCD deve ser configurado para receber dados em grupos de 4 bit;
 · Após o procedimento de inicialização, escreva seu nome no LCD.
 
+3. Conversor A/D: medição de tensão e indicação em % de 5V (data de entrega: 18/09/18)
+Objetivo: Exercício de familiarização com o conversor A/D do PIC e desenvolvimento de rotinas
+aritméticas.
+Especificações:
+· A conversão A/D deve ser feita em 8 bits pela porta GP2;
+· Faça a aquisição 32 valores para calcular a média de cada medida;
+· A conversão A/D deve ser efetuada, em modo cíclico e tão rápido quanto possível (limitado pela
+velocidade do microcontrolador);
+· O valor da média conversão A/D deve ser transformado para o correspondente percentual de tensão,
+com 100% correspondendo a 5V;
+· O valor do percentual da tensão, em notação de base decimal, deve ser visualizado no display LCD;
+· O valor mostrado no display deve ser atualizado a cada 200 ms;
+· Faça reuso das suas rotinas desenvolvidas na atividade 2/Av2 para indicação no LCD;
+· Veja alguns exemplos:
+Tensão
+medida (V)
+Valor mostrado
+no display
+		0,4 8 %
+		1,8 36 %
+		2,7 54 %
+		4,5 90 %
+		5,0 100 %
+
+4.[FACULTATIVA] Controlador do brilho de um LED de potência 5W (data de entrega: 18/09/18)
+Objetivo: Exercícios para implementação de PWM.
+Contexto: Dimmer para LED de potência.
+Especificações:
+· O LED será acionado pela porta GP0;
+· O sinal enviado pela porta GP0 será modulado pela largura do pulso (PWM), alterando o duty cycle;
+· O controle do brilho do LED será, portanto, efetuado pela alteração do duty cycle (0 a 100%);
+· Após o RESET, o LED deve iniciar apagado;
+· A indicação do percentual do duty cycle será dada a partir de uma conversão A/D, em que 5V
+corresponde a 100%;
+· Quando houver duty cycle diferente de 100%, a frequência do sinal deve ser de 500Hz;
+· GP4 deverá ser utilizado efetuar a conversão A/D;
+· Como o PIC não fornece corrente para acionar um LED de potência, o circuito para acionamento do
+LED faz parte do seu projeto;
+
