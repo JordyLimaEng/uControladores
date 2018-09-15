@@ -1,5 +1,5 @@
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*              MODIFICA√?√?ES PARA USO COM 12F675                 *
+;*              MODIFICA√É?√É?ES PARA USO COM 12F675                 *
 ;*                FEITAS PELO PROF. MARDSON                        *
 ;*                    FEVEREIRO DE 2016                            *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -8,9 +8,9 @@
 ;*                       NOME DO PROJETO                           *
 ;*                           CLIENTE                               *
 ;*         DESENVOLVIDO PELA MOSAICO ENGENHARIA E CONSULTORIA      *
-;*   VERS√?O: 1.0                           DATA: 17/06/03          *
+;*   VERS√É?O: 1.0                           DATA: 17/06/03          *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                     DESCRI√?√?O DO ARQUIVO                        *
+;*                     DESCRI√É?√É?O DO ARQUIVO                        *
 ;*-----------------------------------------------------------------*
 ;*   MODELO PARA O PIC 12F675                                      *
 ;*                                                                 *
@@ -18,58 +18,58 @@
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                     ARQUIVOS DE DEFINI√?√?ES                      *
+;*                     ARQUIVOS DE DEFINI√É?√É?ES                      *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#INCLUDE <p12f675.inc>	;ARQUIVO PADR√?O MICROCHIP PARA 12F675
+#INCLUDE <p12f675.inc>	;ARQUIVO PADR√É?O MICROCHIP PARA 12F675
 
 	__CONFIG _BODEN_OFF & _CP_OFF & _PWRTE_ON & _WDT_OFF & _MCLRE_ON & _INTRC_OSC_NOCLKOUT
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                    PAGINA√?√?O DE MEM√?RIA                         *
+;*                    PAGINA√É?√É?O DE MEM√É?RIA                         *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;DEFINI√?√?O DE COMANDOS DE USU√ÅRIO PARA ALTERA√?√?O DA P√ÅGINA DE MEM√?RIA
-#DEFINE	BANK0	BCF STATUS,RP0	;SETA BANK 0 DE MEM√?RIA
-#DEFINE	BANK1	BSF STATUS,RP0	;SETA BANK 1 DE MAM√?RIA
+;DEFINI√É?√É?O DE COMANDOS DE USU√É¬ÅRIO PARA ALTERA√É?√É?O DA P√É¬ÅGINA DE MEM√É?RIA
+#DEFINE	BANK0	BCF STATUS,RP0	;SETA BANK 0 DE MEM√É?RIA
+#DEFINE	BANK1	BSF STATUS,RP0	;SETA BANK 1 DE MAM√É?RIA
 
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                         VARI√ÅVEIS                               *
+;*                         VARI√É¬ÅVEIS                               *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; DEFINI√?√?O DOS NOMES E ENDERE√?OS DE TODAS AS VARI√ÅVEIS UTILIZADAS 
+; DEFINI√É?√É?O DOS NOMES E ENDERE√É?OS DE TODAS AS VARI√É¬ÅVEIS UTILIZADAS 
 ; PELO SISTEMA
 
-	CBLOCK	0x20	;ENDERE√?O INICIAL DA MEM√?RIA DE
-					;USU√ÅRIO
-		W_TEMP		;REGISTRADORES TEMPOR√ÅRIOS PARA USO
-		STATUS_TEMP	;JUNTO √?S INTERRUP√?√?ES
+	CBLOCK	0x20	;ENDERE√É?O INICIAL DA MEM√É?RIA DE
+					;USU√É¬ÅRIO
+		W_TEMP		;REGISTRADORES TEMPOR√É¬ÅRIOS PARA USO
+		STATUS_TEMP	;JUNTO √É?S INTERRUP√É?√É?ES
 		
 		DADOS_LCD	;OS BITS QUE QUERO MANDAR PARA O LCD
 		LETRA
 
-		;NOVAS VARI√ÅVEIS
+		;NOVAS VARI√É¬ÅVEIS
 
-	ENDC			;FIM DO BLOCO DE MEM√?RIA
+	ENDC			;FIM DO BLOCO DE MEM√É?RIA
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                        FLAGS INTERNOS                           *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; DEFINI√?√?O DE TODOS OS FLAGS UTILIZADOS PELO SISTEMA
+; DEFINI√É?√É?O DE TODOS OS FLAGS UTILIZADOS PELO SISTEMA
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                         CONSTANTES                              *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; DEFINI√?√?O DE TODAS AS CONSTANTES UTILIZADAS PELO SISTEMA
+; DEFINI√É?√É?O DE TODAS AS CONSTANTES UTILIZADAS PELO SISTEMA
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                           ENTRADAS                              *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; DEFINI√?√?O DE TODOS OS PINOS QUE SER√?O UTILIZADOS COMO ENTRADA
-; RECOMENDAMOS TAMB√?M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
+; DEFINI√É?√É?O DE TODOS OS PINOS QUE SER√É?O UTILIZADOS COMO ENTRADA
+; RECOMENDAMOS TAMB√É?M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                           SA√çDAS                                *
+;*                           SA√É¬çDAS                                *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; DEFINI√?√?O DE TODOS OS PINOS QUE SER√?O UTILIZADOS COMO SA√çDA
-; RECOMENDAMOS TAMB√?M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
+; DEFINI√É?√É?O DE TODOS OS PINOS QUE SER√É?O UTILIZADOS COMO SA√É¬çDA
+; RECOMENDAMOS TAMB√É?M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
 #DEFINE	  LCD_EN   GPIO,GP5
 #DEFINE	  SR_DAT   GPIO,GP4
 #DEFINE	  SR_CLOCK GPIO,GP0 	
@@ -78,32 +78,32 @@
 ;*                       VETOR DE RESET                            *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-	ORG	0x00			;ENDERE√?O INICIAL DE PROCESSAMENTO
+	ORG	0x00			;ENDERE√É?O INICIAL DE PROCESSAMENTO
 	GOTO	INICIO
 	
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                    IN√çCIO DA INTERRUP√?√?O                        *
+;*                    IN√É¬çCIO DA INTERRUP√É?√É?O                        *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; ENDERE√?O DE DESVIO DAS INTERRUP√?√?ES. A PRIMEIRA TAREFA √? SALVAR OS
-; VALORES DE "W" E "STATUS" PARA RECUPERA√?√?O FUTURA
+; ENDERE√É?O DE DESVIO DAS INTERRUP√É?√É?ES. A PRIMEIRA TAREFA √É? SALVAR OS
+; VALORES DE "W" E "STATUS" PARA RECUPERA√É?√É?O FUTURA
 
-	ORG	0x04			;ENDERE√?O INICIAL DA INTERRUP√?√?O
+	ORG	0x04			;ENDERE√É?O INICIAL DA INTERRUP√É?√É?O
 	MOVWF	W_TEMP		;COPIA W PARA W_TEMP
 	SWAPF	STATUS,W
 	MOVWF	STATUS_TEMP	;COPIA STATUS PARA STATUS_TEMP
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                    ROTINA DE INTERRUP√?√?O                        *
+;*                    ROTINA DE INTERRUP√É?√É?O                        *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; AQUI SER√Å ESCRITA AS ROTINAS DE RECONHECIMENTO E TRATAMENTO DAS
-; INTERRUP√?√?ES
+; AQUI SER√É¬Å ESCRITA AS ROTINAS DE RECONHECIMENTO E TRATAMENTO DAS
+; INTERRUP√É?√É?ES
 	
 		
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                 ROTINA DE SA√çDA DA INTERRUP√?√?O                  *
+;*                 ROTINA DE SA√É¬çDA DA INTERRUP√É?√É?O                  *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ; OS VALORES DE "W" E "STATUS" DEVEM SER RECUPERADOS ANTES DE 
-; RETORNAR DA INTERRUP√?√?O
+; RETORNAR DA INTERRUP√É?√É?O
 
 SAI_INT
 	SWAPF	STATUS_TEMP,W
@@ -115,8 +115,8 @@ SAI_INT
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*	            	 ROTINAS E SUBROTINAS                      *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-; CADA ROTINA OU SUBROTINA DEVE POSSUIR A DESCRI√?√?O DE FUNCIONAMENTO
-; E UM NOME COERENTE √?S SUAS FUN√?√?ES.
+; CADA ROTINA OU SUBROTINA DEVE POSSUIR A DESCRI√É?√É?O DE FUNCIONAMENTO
+; E UM NOME COERENTE √É?S SUAS FUN√É?√É?ES.
 
 SUBROTINA1
 
@@ -131,22 +131,22 @@ SUBROTINA1
 INICIO
 	BANK1				;ALTERA PARA O BANCO 1
 	MOVLW	B'00000000' ;CONFIGURA TODAS AS PORTAS DO GPIO (PINOS)
-	MOVWF	TRISIO		;COMO SA√çDAS
+	MOVWF	TRISIO		;COMO SA√É¬çDAS
 	CLRF	ANSEL 		;DEFINE PORTAS COMO Digital I/O
 	MOVLW	B'00000000'
-	MOVWF	OPTION_REG	;DEFINE OP√?√?ES DE OPERA√?√?O
+	MOVWF	OPTION_REG	;DEFINE OP√É?√É?ES DE OPERA√É?√É?O
 	MOVLW	B'11000000'
-	MOVWF	INTCON		;DEFINE OP√?√?ES DE INTERRUP√?√?ES
+	MOVWF	INTCON		;DEFINE OP√É?√É?ES DE INTERRUP√É?√É?ES
 	CALL	0X3FF
 	MOVWF	OSCCAL
 	
-	BCF	 PIE1,TMR1IE	;DESABILITA A INTERRUP«√O PELO TIMER1
+	BCF	 PIE1,TMR1IE	;DESABILITA A INTERRUP√á√ÉO PELO TIMER1
 	
 	BANK0				;RETORNA PARA O BANCO
 	MOVLW	B'00000111'
-	MOVWF	CMCON		;DEFINE O MODO DE OPERA√?√?O DO COMPARADOR ANAL√?GICO	
+	MOVWF	CMCON		;DEFINE O MODO DE OPERA√É?√É?O DO COMPARADOR ANAL√É?GICO	
 	BSF	T1CON,TMR1ON	;HABILITA O TIMER1
-	BCF	T1CON,TMR1CS	;DEFINE O CLOCK DE OPERA«√O INTERNO
+	BCF	T1CON,TMR1CS	;DEFINE O CLOCK DE OPERA√á√ÉO INTERNO
 	BCF	T1CON,T1CKPS1	
 	BCF	T1CON,T1CKPS0	;PRESCALER 1:1	
 	CLRF	DADOS_LCD
@@ -154,7 +154,7 @@ INICIO
 	
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-;*                     INICIALIZA√?√?O DAS VARI√ÅVEIS                 *
+;*                     INICIALIZA√É?√É?O DAS VARI√É¬ÅVEIS                 *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -162,7 +162,7 @@ INICIO
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 MAIN
 
-	CALL INIT_LCD	    ;CHAMA A ROTINHA DE INICIALIZA«√O DO LCD
+	CALL INIT_LCD	    ;CHAMA A ROTINHA DE INICIALIZA√á√ÉO DO LCD
 	call  delay_0.5s
 		
 	
@@ -205,12 +205,12 @@ MAIN
 ESCREVE
     BSF  LCD_EN
 	MOVWF	LETRA		   ;RECEBE 8 BITS DE DADOS
-	RLF	LETRA		   ;FAZ RRF E ANALISA O CARRY
+	RLF	LETRA		   ;FAZ RLF E ANALISA O CARRY
 	BCF	SR_DAT		   ;DEPENDENDO DO VALOR EM CARRY, ENVIA 0 OU 1
 	BTFSC	STATUS,C	   ;PARA O SHIFT REGISTER 
 	BSF	SR_DAT		
 	BSF	SR_CLOCK	   ;NESTE PONTO, ENVIA D7
-	BCF	SR_CLOCK	   ;D¡ PULSO DE CLOCK PARA MOVIMENTA«√O DOS BITS 
+	BCF	SR_CLOCK	   ;D√Å PULSO DE CLOCK PARA MOVIMENTA√á√ÉO DOS BITS 
 	
 	RLF	LETRA		;ENVIA D6
 	BCF	SR_DAT
@@ -254,12 +254,12 @@ ESCREVE
     	
     BSF  LCD_EN
 	
-	RLF	LETRA		   ;FAZ RRF E ANALISA O CARRY
+	RLF	LETRA		   ;FAZ RLF E ANALISA O CARRY
 	BCF	SR_DAT		   ;DEPENDENDO DO VALOR EM CARRY, ENVIA 0 OU 1
 	BTFSC	STATUS,C	   ;PARA O SHIFT REGISTER 
 	BSF	SR_DAT		
 	BSF	SR_CLOCK	   ;NESTE PONTO, ENVIA D7
-	BCF	SR_CLOCK	   ;D¡ PULSO DE CLOCK PARA MOVIMENTA«√O DOS BITS 
+	BCF	SR_CLOCK	   ;D√Å PULSO DE CLOCK PARA MOVIMENTA√á√ÉO DOS BITS 
 	
 	RLF	LETRA		;ENVIA D6
 	BCF	SR_DAT
@@ -326,14 +326,14 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	CALL SHIFT_REGISTER
 	BCF  LCD_EN
 		
-	CALL delay_100us    ;ESPERA DE SEGURAN«A
+	CALL delay_100us    ;ESPERA DE SEGURAN√áA
 	
-	BSF  LCD_EN	    ;ESTABELECE A COMUNICA«√O POR 4VIAS
+	BSF  LCD_EN	    ;ESTABELECE A COMUNICA√á√ÉO POR 4VIAS
 	MOVLW	B'00100100' ;NIBBLE1
 	CALL SHIFT_REGISTER
 	BCF  LCD_EN
 	
-	CALL delay_100us    ;CONDI«’ES DE UTILIZA«√O
+	CALL delay_100us    ;CONDI√á√ïES DE UTILIZA√á√ÉO
 	BSF  LCD_EN
 	MOVLW	B'00100100' ;NIBBLE1
 	CALL SHIFT_REGISTER
@@ -366,7 +366,7 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	
 	CALL delay_100us
 	
-	BSF  LCD_EN	    ;DESLOCAMENTO AUTOM¡TICO PARA DIREITA
+	BSF  LCD_EN	    ;DESLOCAMENTO AUTOM√ÅTICO PARA DIREITA
 	MOVLW	B'00100000' ;NIBBLE1
 	CALL SHIFT_REGISTER
 	BCF  LCD_EN
@@ -380,8 +380,8 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 return
 	
 	
-;FUN«√O QUE RECEBE O QUE … ENVIADO PARA O WORK
-;ONDE FAZ ROTATE PARA DIREITA, PEGA O QUE EST¡ NO CARRY
+;FUN√á√ÉO QUE RECEBE O QUE √â ENVIADO PARA O WORK
+;ONDE FAZ ROTATE PARA DIREITA, PEGA O QUE EST√Å NO CARRY
 ;E ENVIA PARA O SHIFT REGISTER
 SHIFT_REGISTER     
     
@@ -391,7 +391,7 @@ SHIFT_REGISTER
 	BTFSC	STATUS,C	   ;PARA O SHIFT REGISTER 
 	BSF	SR_DAT		
 	BSF	SR_CLOCK	   ;NESTE PONTO, ENVIA D7
-	BCF	SR_CLOCK	   ;D¡ PULSO DE CLOCK PARA MOVIMENTA«√O DOS BITS 
+	BCF	SR_CLOCK	   ;D√Å PULSO DE CLOCK PARA MOVIMENTA√á√ÉO DOS BITS 
 	
 	RRF	DADOS_LCD	;ENVIA D6
 	BCF	SR_DAT
@@ -450,7 +450,7 @@ RETURN
 	    MOVLW   .0		;INICIA O TIMER1 COM B'0000 0000'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .0
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_0.5s
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_0.5s
@@ -463,7 +463,7 @@ RETURN
 	    MOVLW   .193	;INICIA O TIMER1 COM B'1100 0001'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .0
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_15ms
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_15ms
@@ -474,7 +474,7 @@ RETURN
 	    MOVLW   .222	;INICIA O TIMER1 COM B'1101 1110'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .199
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_8ms
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_8ms
@@ -485,7 +485,7 @@ RETURN
 	    MOVLW   .236	;INICIA O TIMER1 COM B'1110 1100'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .115
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_4ms
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_4ms
@@ -497,7 +497,7 @@ RETURN
 	    MOVLW   .248	;INICIA O TIMER1 COM B'1111 1000'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .0
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_1.8ms
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_1.8ms
@@ -508,7 +508,7 @@ RETURN
 	    MOVLW   .255	;INICIA O TIMER1 COM B'1111 1111'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .120
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_100us
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_100us
@@ -519,7 +519,7 @@ RETURN
 	    MOVLW   .255	;INICIA O TIMER1 COM B'1111 1111'
 	    MOVWF   TMR1H	;FORMULA TIMER1 = (255 - TMR1H)*255
 	    MOVLW   .185
-	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√O
+	    MOVWF   TMR1L	;TMR1L SERVE COMO PRECIS√ÉO
 	    aux_40us
 	   BTFSS    PIR1,TMR1IF
 	   GOTO	    aux_40us
