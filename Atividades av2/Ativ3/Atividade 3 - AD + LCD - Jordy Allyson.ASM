@@ -186,7 +186,7 @@ AGUARDA
 ;***************************************************************************
 ;Através de sucessivas somas e rrf, consegue multiplicar dois números de 8bit
 Mul8x8                          ;* 2 ciclos 
-mult    MACRO
+mult    MACRO					;Para n ter que ficar fazendo CALL
         btfsc   STATUS,C
         addwf   resulthi,F
         rrf     resulthi,F
@@ -221,11 +221,11 @@ Div;
     btfsc bf_zero    ; se zero
      return          ; retorna (erro C,Z)
 
-    call DivSkipHiShift
-iDivRepeat = 8		;8 pelo número de bits
-while iDivRepeat	;Através de rlf faz as divisões no valor recebido
+    call DivPulaShiftD
+Repete = 8		;8 pelo número de bits
+while Repete	;Através de rlf faz as divisões no valor recebido
     call DivCode
-iDivRepeat--
+Repete--
 endw
 
     rlf f_divlo, 1 ; C << lo << C
@@ -237,12 +237,12 @@ DivCode
     rlf f_divlo, 1    ; C << lo << C
     rlf f_divhi, 1    ; C << hi << C
     btfss bf_carry       ; 
-     goto DivSkipHiShift ;
+     goto DivPulaShiftD ;
     subwf f_divhi, 1  ;   hi-=w
     stc                  ;   ignora carry
     return               
                          
-DivSkipHiShift
+DivPulaShiftD
     subwf f_divhi, 1  ; hi-=w
     btfsc bf_carry       ; ignora carry
      return              ;   fim
@@ -257,17 +257,17 @@ Divisao_por_10
 dezena_t  
 	bcf STATUS,Z	
 	bcf STATUS,C	
-	movlw .10	;Valor do denominador, no caso da funçâo, 10.  
-	subwf valor_10,0 ;Faz subtração de data_dq - W, guarda resultado em W  
-	btfss STATUS,Z	;Primeiro teste verifica se data_dq = W.  
+	movlw .10		;Valor do denominador, no caso da funçâo, 10.  
+	subwf valor_10,0 ;Faz subtração de valor_10 - W, guarda resultado em W  
+	btfss STATUS,Z	;Primeiro teste verifica se valor_10 = W.  
 	goto dezena_p	;A divisão é possível.  
-	incf dezena,1	;data_dq=10, logo incrementa o regist dezena  
+	incf dezena,1	;valor_10=10, logo incrementa o regist dezena  
 	movwf unidade	;Completa o outro digito unidade com o valor 0  
 	goto out    	;Divisão não é possível.  
 dezena_p
 	btfss STATUS,C	;segundo teste verifica se a divisão é possível  
-	goto out_temp	;data_dq menor que 10,divisão não é possível.  
-	movwf valor_10	;resultado da subtração passa para o registo data_dq.  
+	goto out_temp	;valor_10 menor que 10,divisão não é possível.  
+	movwf valor_10	;resultado da subtração passa para o regist valor_10.  
 	incf dezena,1	;soma 1 ao regist  
 	goto dezena_t   ;volta ao inicio, para mais divisões... 
 out_temp 
@@ -321,9 +321,10 @@ INICIO
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                     ROTINA PRINCIPAL                            *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
+;Os 200ms de atualização do display, são conseguidos através da chamada não muito usual
+;da rotina de gravação da EEPROM 32x, o que resulta em um delay de ~190ms.
 	CALL INIT_LCD	
-LOOP2		
+LOOP		
 	BSF ADCON0,GO_DONE		;HABILITA CONVERSÃO
 WAIT_ADC
 	BTFSC ADCON0,GO_DONE		;ESPERA ATÉ A CONVERSÃO FINALIZAR
@@ -332,7 +333,7 @@ WAIT_ADC
 	MOVF	ADRESH,W		;COPIA O VALOR CONVERTIDO PARA UMA VARIÁVEL
 	MOVWF   Valor_ad		;PARA POSTERIOR ACUMULAÇÃO.
 	MOVFW	CONTADOR		;CONTADOR QUE SERVE PARA INDICAR AS POSIÇÕES
-	CALL	GRAVA_EEPROM		;DA EEPROM QUE RECEBERÃO OS VALORES VINDO DO A/D.
+	CALL	GRAVA_EEPROM	;DA EEPROM QUE RECEBERÃO OS VALORES VINDO DO A/D.
 	CLRF	Valor_ad		;LIMPA O VALOR ATUAL PARA RECEBER OS PRÓXIMOS.
 	
 	MOVFW	CONTADOR		;COPIA A QUANTIDADE DE CONVERSÕES FEITAS PARA UM AUXILIAR
@@ -353,14 +354,14 @@ WAIT_ADC
 	CALL delay_100us
 	CALL delay_100us
 	
-goto LOOP2
+goto LOOP
 	
 PARA					
 	CLRF CONTADOR			;LIMPA AS VARIÁVEIS USADAS PARA PRÓXIMA CONVERSÃO.
 	CALL FAZ_MEDIA			;CHAMA A ROTINA PARA MÉDIA DAS AQUISIÇÕES.
 	CLRF CARRY_BIT			;LIMPA AS VARIÁVEIS USADAS PARA PRÓXIMA CONVERSÃO.
 	CLRF Valor_Lido			;LIMPA AS VARIÁVEIS USADAS PARA PRÓXIMA CONVERSÃO.
-GOTO	LOOP2
+GOTO	LOOP
 	
 
 ACUMULA_VALORES	
@@ -420,19 +421,16 @@ PORCENTAGEM		    ;FAZ A PORCENTAGEM DE ACORDO COM A MÉDIA OBTIDA
 	MOVLW   0x25
 	CALL	ESCREVE
     Limpa
-	CALL  Clear_cursor
-	CALL delay_65ms
-	CALL delay_65ms
-	CALL delay_65ms
+	CALL  Clear_cursor 	;Posiciona o cursor na primeira posição da DDRAM
 return
 
 ;ANALISA QUAL O VALOR DA DEZENA E MANDA PRINTAR	
 Printa_Dezena
-	BCF	STATUS,Z
-	MOVLW	.10
-	SUBWF	dezena,w
-	BTFSC	STATUS,Z
-	GOTO	Escreve_10
+	BCF	STATUS,Z		;LIMPA REGISTRADOR Z
+	MOVLW	.10			;SE A SUBTRAÇÃO DER RESULTADO 0
+	SUBWF	dezena,w	;VALOR ANALISADO É O ENCONTRADO,
+	BTFSC	STATUS,Z	;SE NÃO, TESTA OS OUTROS.	
+	GOTO	Escreve_10	
 	
 	BCF	STATUS,Z
 	MOVLW	.9
@@ -496,7 +494,7 @@ Printa_Dezena
 return
 	
 PT1
-	CALL delay_100us    ;MOVE CURSOR PARA POSIÇÃO 3 PARA LIMAR O 0 DO 100%
+	CALL delay_100us    ;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
 	BSF  LCD_EN
 	MOVLW	B'00100001' ;NIBBLE1
 	CALL SHIFT_REGISTER
@@ -509,7 +507,7 @@ PT1
 return
 
 PT2
-	CALL delay_100us    ;MOVE CURSOR PARA POSIÇÃO 1
+	CALL delay_100us    ;MOVE CURSOR PARA POSIÇÃO 1 DA DDRAM
 	BSF  LCD_EN
 	MOVLW	B'00100001' ;NIBBLE1
 	CALL SHIFT_REGISTER
@@ -523,93 +521,93 @@ return
 
 ;PRINTA A PARTE DAS UNIDADES NO LCD
 Escreve_10
-	MOVLW   0x31
+	MOVLW   0x31	;d'1
 	CALL	ESCREVE
-	MOVLW   0x30
+	MOVLW   0x30	;d'0
 	CALL	ESCREVE
-	MOVLW   0x30
+	MOVLW   0x30	;d'0
 	CALL	ESCREVE
 	BSF	STATUS,DC
 	GOTO	Limpa	
 Escreve_9
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x39
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x39	;d'9
 	CALL	ESCREVE
 	BCF	STATUS,DC
-	GOTO	Printou_dezena
+	GOTO	Printou_dezena ;Ao printar a dezena, vai label afim de printar a unidade.
 Escreve_8
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x38
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x38	;d'8
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_7
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x37
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x37	;d'7
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_6
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x36
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x36	;d'6
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_5
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x35
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x35	;d'5
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_4
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x34
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x34	;d'4
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_3
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x33
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x33	;d'3
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_2
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x32
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x32	;d'2
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_1
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x31
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x31	;d'1
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 Escreve_0
-	CALL PT1	
-	BTFSC	STATUS,DC
-	CALL	LIMPA_ZERO	
-	CALL PT2
-	MOVLW   0x30
+	CALL PT1			;MOVE CURSOR PARA POSIÇÃO 3 DA DDRAM
+	BTFSC	STATUS,DC	;Verifica se printou 100% alguma vez
+	CALL	LIMPA_ZERO	;Se sim, limpa o segundo zero de 100%
+	CALL PT2			;Se não, vai para posição 1 da DDRAM e printa a unidade correspondente
+	MOVLW   0x30	;d'0
 	CALL	ESCREVE
 	GOTO	Printou_dezena
 ;FIM
@@ -946,17 +944,14 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW 'N'
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW 'I'
 	CALL ESCREVE
-	CALL delay_65ms
 	CALL delay_65ms
 	CALL delay_65ms
 	
@@ -964,11 +959,9 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW 'I'
 	CALL ESCREVE
-	CALL delay_65ms
 	CALL delay_65ms
 	CALL delay_65ms
 	
@@ -976,11 +969,9 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW 'N'
 	CALL ESCREVE
-	CALL delay_65ms
 	CALL delay_65ms
 	CALL delay_65ms
 	
@@ -988,29 +979,24 @@ INIT_LCD ;DADOS => 0 0 BL RS D4 D5 D6 D7 PARA NIBBLE1
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW 'O'
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
+	
+	MOVLW '.'
+	CALL ESCREVE
+	CALL delay_65ms
 	CALL delay_65ms
 	
 	MOVLW '.'
 	CALL ESCREVE
 	CALL delay_65ms
 	CALL delay_65ms
-	CALL delay_65ms
 	
 	MOVLW '.'
 	CALL ESCREVE
-	CALL delay_65ms
-	CALL delay_65ms
-	CALL delay_65ms
-	
-	MOVLW '.'
-	CALL ESCREVE
-	CALL delay_65ms
 	CALL delay_65ms
 	CALL delay_65ms
 	
