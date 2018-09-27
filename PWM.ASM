@@ -90,18 +90,6 @@
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ; AQUI SER� ESCRITA AS ROTINAS DE RECONHECIMENTO E TRATAMENTO DAS
 ; INTERRUP합ES
-	;BSF GPIO,GP2;
-	BTFSS	PIR1,CMIF
-	GOTO	SAI_INT
-	BCF	PIR1,CMIF
-	BTFSC	CMCON,COUT
-	GOTO	SETA_SAIDA
-	BCF	GPIO,GP4
-	GOTO	SAI_INT
-	
-	
-SETA_SAIDA
-	BSF	GPIO,GP4
 	
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -134,7 +122,7 @@ INICIO
 	CLRF	ANSEL 		;DEFINE PORTAS COMO Digital I/O
 	MOVLW	B'00000100'
 	MOVWF	OPTION_REG	;DEFINE OP합ES DE OPERA플O
-	MOVLW	B'11000000'
+	MOVLW	B'00000000'
 	MOVWF	INTCON		;DEFINE OP합ES DE INTERRUP합ES
 	MOVLW	B'00000000'
 	MOVWF	VRCON
@@ -154,7 +142,7 @@ INICIO
 ;*                     ROTINA PRINCIPAL                            *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-	MOVLW	B'00000010'
+	MOVLW	B'00000001'
 	MOVWF	CMCON
 	CALL	delay
 	
@@ -162,29 +150,6 @@ INICIO
 MAIN	
 	
 	GOTO MAIN
-	
-delay
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-return
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                       FIM DO PROGRAMA                           *
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
