@@ -22,7 +22,7 @@
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 #INCLUDE <p16f628a.inc>	;ARQUIVO PADRÃO MICROCHIP PARA 12F675
 
-	__CONFIG _BODEN_OFF & _CP_OFF & _PWRTE_ON & _WDT_OFF & _MCLRE_OFF & _INTRC_OSC_NOCLKOUT & _LVP_OFF
+	__CONFIG _BODEN_OFF & _CP_OFF & _PWRTE_ON & _WDT_ON & _MCLRE_OFF & _INTRC_OSC_NOCLKOUT & _LVP_OFF
 
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                    PAGINAÇÃO DE MEMÓRIA                         *
@@ -88,22 +88,20 @@
 	
 	BCF	INTCON,INTF
 	
-	BTFSS	STATUS,DC
-	GOTO	ATIVA_SLEEP
-	GOTO	DESATIVA_SLEEP
+	movlw	.5
+	movwf	CONT
 	
-ATIVA_SLEEP
-	BSF	STATUS,DC
+	clrwdt
 	BSF	LED2
+dorme
 	SLEEP
 	NOP
-	BCF	INTCON,INTF
-	;GOTO	SAI_INT
-DESATIVA_SLEEP
-	BCF	STATUS,DC
+	clrwdt
+	decfsz	CONT,F
+	goto	dorme
 	BCF	LED2
-	GOTO	SAI_INT
-	
+		
+	BCF	INTCON,INTF
 
 SAI_INT
 	SWAPF	STATUS_TEMP,W
@@ -149,13 +147,13 @@ INICIO
 	MOVWF	TRISA		
 	MOVLW	B'00000001'	
 	MOVWF	TRISB		
-	MOVLW	B'10000111'
+	MOVLW	B'10001111'
 	MOVWF	OPTION_REG 	;DEFINE OPÇÕES DE OPERAÇÃO	
 	MOVLW	B'10010000'
 	MOVWF	INTCON		;DEFINE OPÇÕES DE INTERRUPÇÕES	
+	BANK0			;RETORNA PARA O BANCO		
 	MOVLW	B'00000111'
 	MOVWF	CMCON
-	BANK0			;RETORNA PARA O BANCO		
 	BSF	T1CON,TMR1ON	;HABILITA O TIMER1
 	BCF	T1CON,TMR1CS	;DEFINE O CLOCK DE OPERAÇÃO INTERNO
 	BCF	T1CON,T1CKPS1	
@@ -163,6 +161,7 @@ INICIO
 	BCF	LED1
 	BCF	LED2
 	BCF	STATUS,DC
+	
 	
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;*                     INICIALIZAÇÃO DAS VARIÁVEIS                 *
@@ -173,10 +172,13 @@ INICIO
 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	MAIN
 	
+	clrwdt
 	BSF	LED1
 	CALL	delay_1s
 	BCF	LED1
 	CALL	delay_1s
+	
+;	goto $
 	
 	GOTO	MAIN
 
