@@ -1,1 +1,0 @@
-Código referente à implementação de um Dimmer para controlar o brilho de um led de potência, juntamente com uma planilha com dividida em 20 valores possíveis de PWM e suas porcentagens, como também as escalas que o TImer1 pode alcançar usando alguns prescalers.
