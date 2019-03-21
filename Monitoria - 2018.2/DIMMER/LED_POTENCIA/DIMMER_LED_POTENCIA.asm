@@ -300,7 +300,7 @@ PWM_95
 	BCF	GPIO,GP0
 	CALL	delay_95P_low
 GOTO	MAIN	
-							;os 2 primeiros comentários dos delays servem como base de funcionamento, os próximos funcionam semelhantemente.
+;os 2 primeiros comentários dos delays servem como base de funcionamento, os próximos funcionam semelhantemente.
 	
 delay_95P_high
 	    BCF	T1CON,T1CKPS1	;DEFINE PRESCALER PARA 1:2
