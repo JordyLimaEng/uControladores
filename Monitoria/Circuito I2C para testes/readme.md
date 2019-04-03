@@ -1,1 +1,1 @@
-Circuito funciona com o master sendo o PIC12F675 enviando os endereços de todos os alunos (verificar com Mardson, arquivo que gera isto foi ele que enviou no 18.1) ... e o PIC16F628A operando como slave, respondendo ao seu endereço e setando porta GP5 para HIGH por 200ms (depende da turma).
+Circuito funciona com o master sendo o PIC12F675 enviando os endereços de todos os alunos (no meu caso, meu endereço era d'51). Temos os pics 12F675 e 16F628A operando como slave, respondendo ao seu endereço e setando porta GP5 para HIGH por 200ms (depende da aplicação).
