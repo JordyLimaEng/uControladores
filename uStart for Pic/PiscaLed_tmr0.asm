@@ -27,7 +27,7 @@
   clrf counter
  
 end_int:
-  bcf INTCON,TMR0IF  
+    bcf INTCON,TMR0IF 
 ;----------------------------------------  
   retfie ;Volta ao curso do programa  
 ;################################################ 
@@ -67,22 +67,34 @@ INICIO:
   bcf INTCON,GIE    ; Desabilita interrupções globais
   bsf INTCON,TMR0IE ; Habilita interrupção Timer 0
   
-  movlw b'00010100' ;Tmr0 parado, 16bit, PSA de 1:2
+  movlw b'00010110' ;Tmr0 parado, 16bit, PSA de 1:2
   movwf	T0CON
   
-  ;Inicializa timer
-  movlw 0x00
-  movwf TMR0H
-  movlw 0x00
-  movwf TMR0L
- 
   ;INTCON2,TMR0IP define se o estouro do timer desvia para hi_int ou low_int
   bsf INTCON2,TMR0IP ; Timer 0 - INTCON2,TMR0IP = 1 - Alta prioridade
   bsf T0CON,TMR0ON   ; Timer 0 - Habilita Timer0
   bsf INTCON,GIE     ; Habilita interrupções globais
+  
+  teste
+  bcf INTCON,TMR0IF  
+  ;Inicializa timer 
+  ;Máx PS  1:2 000  =  10.9ms
+  ;Máx PS  1:4 001  =  21.8ms
+  ;Máx PS  1:8 010  =  43.7ms
+  ;Máx PS 1:16 011  =  87.4ms 
+  ;Máx PS 1:32 100  = 174.7ms
+  ;Máx PS 1:64 101  = 349.5ms
+  ;Máx PS 1:128 110 = 699.0ms
+  ;Máx PS 1:256 111 = 1.398s
+  
+  movlw .100
+  movwf TMR0H
+  movlw .0
+  movwf TMR0L
      
   loop
-  nop   
+  btfsc INTCON,TMR0IF
+  goto teste
   goto loop
   
   end
