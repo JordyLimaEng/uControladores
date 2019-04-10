@@ -1,22 +1,22 @@
 ; Placa de aprendizagem: uStart for PIC   
-; Programa√ß√£o em Assembly do PIC18F4550 
+; Programa√É¬ß√É¬£o em Assembly do PIC18F4550 
 ; Autor: Jordy Allyson
     
   list p=18f4550, r=hex
   #include <p18f4550.inc>  
   
-  org 0x0000 ;Inicia o programa no endereÁo de memÛria 0x00
+  org 0x0000 ;Inicia o programa no endere√ßo de mem√≥ria 0x00
   goto INICIO 
   
-  org 0x0008 ;interrupÁ„o de alta prioridade, desvia para endereÁo 0x08
+  org 0x0008 ;interrup√ß√£o de alta prioridade, desvia para endere√ßo 0x08
   goto HI_INT
   
-  org 0x0018 ;interrupÁ„o de baixa prioridade, desvia para endereÁo 0x18
+  org 0x0018 ;interrup√ß√£o de baixa prioridade, desvia para endere√ßo 0x18
   goto LOW_INT
   
-;####### INTERRUP«√O DE ALTA PRIORIDADE ########
+;####### INTERRUP√á√ÉO DE ALTA PRIORIDADE ########
   HI_INT:
-;EspaÁoßo para execuÁ„o em alta prioridade
+;Espa√ßo¬ßo para execu√ß√£o em alta prioridade
 ;----------------------------------------
     
   btfss INTCON,TMR0IF
@@ -32,9 +32,9 @@ end_int:
   retfie ;Volta ao curso do programa  
 ;################################################ 
   
-;####### INTERRUP«√O DE BAIXA PRIORIDADE ########
+;####### INTERRUP√á√ÉO DE BAIXA PRIORIDADE ########
   LOW_INT:
-;EspaÁo para execuÁ„o em baixa prioridade
+;Espa√ßo para execu√ß√£o em baixa prioridade
 ;----------------------------------------
     
   nop
@@ -44,28 +44,28 @@ end_int:
 ;################################################
   
   
-;##### INCIALIZA«√O DE VARI¡VEIS #####
-  CBLOCK	0x10	;ENDERE«O INICIAL DA MEM”RIA DE USU¡RIO
+;##### INCIALIZA√á√ÉO DE VARI√ÅVEIS #####
+  CBLOCK	0x10	;ENDERE√áO INICIAL DA MEM√ìRIA DE USU√ÅRIO
 			
 		counter
-		;NOVAS VARI√ÅVEIS
-  ENDC		;FIM DO BLOCO DE MEM”RIA
+		;NOVAS VARI√É¬ÅVEIS
+  ENDC		;FIM DO BLOCO DE MEM√ìRIA
 
 ;######### ROTINA PRINCIPAL DO PROGRAMA #########
 INICIO:
   clrf counter 
   ;--------------------------------------
-  ;LATA È usado em saidas Digitais
-  ;PORTA È usado em entradas TTL
-  movlw b'00000000' ;Define todas as portas de TRISA como sa√≠das
+  ;LATA √© usado em saidas Digitais
+  ;PORTA √© usado em entradas TTL
+  movlw b'00000000' ;Define todas as portas de TRISA como sa√É¬≠das
   movwf TRISA
   bcf   LATA,1	    ;seta RA1 em LOW
   bsf	LATA,2	    ;seta RA2 en HIGH
   
   ;INTCON (1,2 e 3) funcionam de acordo com os valores encontrados em RCON,IPEN
-  ;Neste caso, RCON,IPEN = 0 (incializaÁ„o padr„o)
-  bcf INTCON,GIE    ; Desabilita interrupÁıes globais
-  bsf INTCON,TMR0IE ; Habilita interrupÁ„o Timer 0
+  ;Neste caso, RCON,IPEN = 0 (incializa√ß√£o padr√£o)
+  bcf INTCON,GIE    ; Desabilita interrup√ß√µes globais
+  bsf INTCON,TMR0IE ; Habilita interrup√ß√£o Timer 0
   
   movlw b'00010110' ;Tmr0 parado, 16bit, PSA de 1:2
   movwf	T0CON
@@ -73,21 +73,21 @@ INICIO:
   ;INTCON2,TMR0IP define se o estouro do timer desvia para hi_int ou low_int
   bsf INTCON2,TMR0IP ; Timer 0 - INTCON2,TMR0IP = 1 - Alta prioridade
   bsf T0CON,TMR0ON   ; Timer 0 - Habilita Timer0
-  bsf INTCON,GIE     ; Habilita interrupÁıes globais
+  bsf INTCON,GIE     ; Habilita interrup√ß√µes globais
   
   teste
   bcf INTCON,TMR0IF  
   ;Inicializa timer 
-  ;M·x PS  1:2 000  =  10.9ms
-  ;M·x PS  1:4 001  =  21.8ms
-  ;M·x PS  1:8 010  =  43.7ms
-  ;M·x PS 1:16 011  =  87.4ms 
-  ;M·x PS 1:32 100  = 174.7ms
-  ;M·x PS 1:64 101  = 349.5ms
-  ;M·x PS 1:128 110 = 699.0ms
-  ;M·x PS 1:256 111 = 1.398s
+  ;M√°x PS  1:2 000  =  10.9ms
+  ;M√°x PS  1:4 001  =  21.8ms
+  ;M√°x PS  1:8 010  =  43.7ms
+  ;M√°x PS 1:16 011  =  87.4ms 
+  ;M√°x PS 1:32 100  = 174.7ms
+  ;M√°x PS 1:64 101  = 349.5ms
+  ;M√°x PS 1:128 110 = 699.0ms
+  ;M√°x PS 1:256 111 = 1.398s
   
-  movlw .100
+  movlw .0
   movwf TMR0H
   movlw .0
   movwf TMR0L
